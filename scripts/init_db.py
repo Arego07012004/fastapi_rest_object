@@ -3,9 +3,9 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 DB_NAME = "harward_university"
 DB_USER = "areg"
-DB_PASSWORD = "7125"
+DB_PASSWORD = "'7125'"
 DB_HOST = "localhost"
-DB_PORT = 5423
+DB_PORT = 5432
 
 conn = psycopg2.connect(
     dbname=DB_NAME,
