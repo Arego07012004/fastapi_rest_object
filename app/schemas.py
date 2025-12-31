@@ -1,10 +1,11 @@
 from pydantic import BaseModel
 
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    year: int
-    extra: dict
+class StudentCreate(BaseModel):
+    name: str
+    age: int
+    faculty: str | None = None
+    course: str | None = None
+    grade: str | None = None
 
 class BookOut(BookCreate):
     id: int
