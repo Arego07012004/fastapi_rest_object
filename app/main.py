@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from app.database import Base, engine, SessionLocal
 from app import schemas, crud
 
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -26,5 +25,6 @@ def list_books(limit: int = 10, offset: int = 0, db: Session = Depends(get_db)):
 def read(book_id: int, db: Session = Depends(get_db)):
     book = crud.get_book(db, book_id)
     if not book:
-        raise HTTPException(404)
+        raise HTTPException(status_code=404, detail="Book not found")
     return book
+
