@@ -7,7 +7,7 @@ branch_labels = None
 depends_on = None
 
 def upgrade():
-    op.create_index('ix_movies_author', 'movies', ['author'])
+    op.create_index('ix_students_name', 'students', ['name'])
 
 def downgrade():
-    op.drop_index('ix_movies_author', table_name='movies')
+    op.drop_index('ix_students_name', table_name='students')

@@ -7,7 +7,7 @@ branch_labels = None
 depends_on = None
 
 def upgrade():
-    op.add_column('movies', sa.Column('rating', sa.Float(), nullable=True))
+    op.add_column('students', sa.Column('rating', sa.Float(), nullable=True))
 
 def downgrade():
-    op.drop_column('movies', 'rating')
+    op.drop_column('students', 'rating')
