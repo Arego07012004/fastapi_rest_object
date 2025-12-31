@@ -1,14 +1,17 @@
 from pydantic import BaseModel
 
-class StudentCreate(BaseModel):
+class StudentBase(BaseModel):
     name: str
     age: int
     faculty: str | None = None
     course: str | None = None
     grade: str | None = None
 
-class BookOut(BookCreate):
-    id: int
+class StudentCreate(StudentBase):
+    pass
 
+class Student(StudentBase):
+    id: int
     class Config:
-        orm_mode = True 
+        orm_mode = True
+

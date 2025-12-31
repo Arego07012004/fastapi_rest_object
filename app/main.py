@@ -1,31 +1,30 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from app.database import Base, engine, SessionLocal
-from app import schemas, crud, models
-
-Base.metadata.create_all(bind=engine)
+from . import crud, schemas, database
 
 app = FastAPI()
+db_dependency = database.SessionLocal
 
 def get_db():
-    db = SessionLocal()
+    db = db_dependency()
     try:
         yield db
     finally:
         db.close()
 
-@app.post("/books/", response_model=schemas.BookOut)
-def create(book: schemas.BookCreate, db: Session = Depends(get_db)):
-    return crud.create_book(db, book)
+@app.post("/students/", response_model=schemas.Student)
+def create_student(student: schemas.StudentCreate, db: Session = Depends(get_db)):
+    return crud.create_student(db, student)
 
-@app.get("/books/")
-def list_books(limit: int = 10, offset: int = 0, db: Session = Depends(get_db)):
-    return crud.get_books(db, limit, offset)
+@app.get("/students/", response_model=list[schemas.Student])
+def read_students(db: Session = Depends(get_db)):
+    return crud.get_students(db)
 
-@app.get("/books/{book_id}")
-def read(book_id: int, db: Session = Depends(get_db)):
-    book = crud.get_book(db, book_id)
-    if not book:
-        raise HTTPException(status_code=404, detail="Book not found")
-    return book
+@app.get("/students/{student_id}", response_model=schemas.Student)
+def read_student(student_id: int, db: Session = Depends(get_db)):
+    return crud.get_student(db, student_id)
+
+@app.delete("/students/{student_id}", response_model=schemas.Student)
+def delete_student(student_id: int, db: Session = Depends(get_db)):
+    return crud.delete_student(db, student_id)
 

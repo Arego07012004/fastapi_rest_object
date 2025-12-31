@@ -1,24 +1,23 @@
 from sqlalchemy.orm import Session
-from app.models import Book
+from . import models, schemas
 
-def create_book(db: Session, data):
-    book = Book(**data.dict())
-    db.add(book)
+def create_student(db: Session, student: schemas.StudentCreate):
+    db_student = models.Student(**student.dict())
+    db.add(db_student)
     db.commit()
-    db.refresh(book)
-    return book
+    db.refresh(db_student)
+    return db_student
 
-def get_books(db: Session, limit: int, offset: int):
-    return db.query(Book).offset(offset).limit(limit).all()
+def get_students(db: Session):
+    return db.query(models.Student).all()
 
-def get_book(db: Session, book_id: int):
-    return db.query(Book).filter(Book.id == book_id).first()
+def get_student(db: Session, student_id: int):
+    return db.query(models.Student).filter(models.Student.id == student_id).first()
 
-def delete_book(db: Session, book_id: int) -> bool:
-    book = get_book(db, book_id)
-    if book:
-        db.delete(book)
+def delete_student(db: Session, student_id: int):
+    student = db.query(models.Student).filter(models.Student.id == student_id).first()
+    if student:
+        db.delete(student)
         db.commit()
-        return True
-    return False
+    return student
 
